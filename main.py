@@ -107,7 +107,7 @@ test_list = ('apple', 'banana', 'Cranberry', 'dogwood', 'alpha', 'Acorn', 'Anise
 app = tk.Tk()
 # set window width and height
 mywidth = 900
-myheight = 500
+myheight = 550
 
 # get screen height and width
 scrwdth = int( app.winfo_screenwidth() )
@@ -132,7 +132,7 @@ scrollbar = tk.Scrollbar(app, orient="vertical")
 # LISTBOX --------------------------------
 scrollbar = tk.Scrollbar(app)
 scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-listbox = tk.Listbox(app, width=126, height=25, borderwidth=8, relief=tk.FLAT, yscrollcommand=scrollbar.set)
+listbox = tk.Listbox(app, width=126, height=27, borderwidth=8, relief=tk.FLAT, yscrollcommand=scrollbar.set)
 
 listbox.pack()
 scrollbar.config(command=listbox.yview)
