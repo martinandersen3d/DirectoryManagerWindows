@@ -1,0 +1,6 @@
+/media/m/DataLinux/Code
+/media/m/DataLinux/Code/Phyton
+/media/m/DataLinux/Code/Javascript
+/media/m/DataLinux/Dropbox/Linux/Scripts
+/media/m/DataLinux/Eaaa
+/media/m/DataLinux/Eaaa/Video
