@@ -71,6 +71,11 @@ class App(tk.Tk):
         self.bind_all('<Control-Key-C>', self.on_shared_keyrelease)
         self.bind_all('<Control-Key-T>', self.on_shared_keyrelease)
         self.bind_all('<Control-Key-P>', self.on_shared_keyrelease)
+        self.bind_all('<Control-Key-Q>', self.exit_app)
+        
+        # Ctrl / Alt + Backspace, clear the textfield
+        self.bind_all('<Control-Key-BackSpace>', self.reset_entry)
+        self.bind_all('<Alt-BackSpace>', self.reset_entry)
     
     def reloadList(self):
         self.folderTupleList=generateList()
@@ -117,18 +122,10 @@ class App(tk.Tk):
                 self.listbox.focus_set()
             
         if end_index != 0 and event.keysym == 'Up':
-            # listbox.focus_set()
-            # listbox.select_set(0)
             self.listbox.select_set(0,0)
-            # listbox.activate(0)
-            # listbox.focus_set()
             
         if end_index != 0 and event.keysym != 'Up'  and event.keysym != 'Down':
-            # listbox.focus_set()
-            # listbox.select_set(0)
             self.listbox.select_set(0,0)
-            # listbox.activate(0)
-            # listbox.focus_set()
             
         self.on_shared_keyrelease(event)
 
@@ -145,9 +142,16 @@ class App(tk.Tk):
         self.on_shared_keyrelease(event)
 
     def on_shared_keyrelease(self, event):
-        print('ctrl')
         if event.keysym == 'Escape':
-            self.destroy()
+            self.exit_app()
+        
+    def reset_entry(self, event):
+        self.entry.delete(0, 'end')
+        self.entry.focus_set()
+        
+        
+    def exit_app(self):
+        self.destroy()
         
     def listbox_update(self, data):
         # delete previous data

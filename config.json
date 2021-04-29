@@ -1,0 +1,40 @@
+{
+    "bookmarks_path":"",
+    "recursive_bookmarks_path":"",
+    "app1": {
+        "text": "Explorer",
+        "path": "21 2nd Street",
+        "hotkey": "E",
+        "show":false
+    },
+    "app2": {
+        "text": "Termnial",
+        "path": "21 2nd Street",
+        "hotkey": "T",
+        "show":false
+    },
+    "app3": {
+        "text": "VsCode",
+        "path": "21 2nd Street",
+        "hotkey": "V",
+        "show":false
+    },
+    "app4": {
+        "text": "Copy Path",
+        "path": "21 2nd Street",
+        "hotkey": "C",
+        "show":false
+    },
+    "app5": {
+        "text": "PowerShell",
+        "path": "21 2nd Street",
+        "hotkey": "P",
+        "show":false
+    },
+    "app6": {
+        "text": "todo",
+        "path": "21 2nd Street",
+        "hotkey": "A",
+        "show":false
+    }
+}
