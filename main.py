@@ -7,11 +7,12 @@
 # Ctrl+ p:   powershell
 
 import tkinter as tk
+from generateList import generateList
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.test_list = ('apple', 'banana', 'Cranberry', 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry'  )
+        self.folderTupleList = ()
 
         # app = tk.Tk()
         # set window width and height
@@ -49,11 +50,7 @@ class App(tk.Tk):
         #listbox.bind('<Double-Button-1>', on_select)
         self.listbox.bind('<<ListboxSelect>>', self.on_select)
         self.listbox.bind('<<ListboxFocused>>', self.on_listbox_focus)
-        self.listbox_update(self.test_list)
-        # listbox.focus_set()
-        self.listbox.select_set(0,0)
-        self.listbox.activate(0)
-        self.entry.focus_set()
+
 
         # BUTTONS --------------------------------------
         self.button1 =  tk.Button(self, text="Explorer", underline=0, command=self.on_button1_click)
@@ -68,7 +65,23 @@ class App(tk.Tk):
         self.button5.pack(side=tk.LEFT)
         self.lbl =  tk.Label(self, text="           Use Ctrl+key or Enter to open in File Manager", fg="#aaa")
         self.lbl.pack(side=tk.LEFT)
+        self.reloadList()
+        self.bind_all('<Control-Key-E>', self.on_shared_keyrelease)
+        self.bind_all('<Control-Key-A>', self.on_shared_keyrelease)
+        self.bind_all('<Control-Key-C>', self.on_shared_keyrelease)
+        self.bind_all('<Control-Key-T>', self.on_shared_keyrelease)
+        self.bind_all('<Control-Key-P>', self.on_shared_keyrelease)
+    
+    def reloadList(self):
+        self.folderTupleList=generateList()
+        self.listbox_update(self.folderTupleList)
+        # listbox.focus_set()
+        self.listbox.select_set(0,0)
+        self.listbox.activate(0)
+        self.entry.focus_set()
         
+        
+    
     def on_entry_keyrelease(self, event):
         
         # get text from entry
@@ -76,12 +89,12 @@ class App(tk.Tk):
         value = value.strip().lower()
         print(event.keysym)
         
-        # get data from test_list
+        # get data from folderTupleList
         if value == '':
-            data = self.test_list
+            data = self.folderTupleList
         else:
             data = []
-            for item in self.test_list:
+            for item in self.folderTupleList:
                 if value in item.lower():
                     data.append(item)                
 
@@ -116,17 +129,25 @@ class App(tk.Tk):
             self.listbox.select_set(0,0)
             # listbox.activate(0)
             # listbox.focus_set()
+            
+        self.on_shared_keyrelease(event)
 
     def on_listbox_keyrelease(self, event):
         
         # get text from entry
         print(event.keysym)
         print(event.widget.curselection()[0])
-        if event.keysym == 'Up' and event.widget.curselection()[0] == 0:
-            print('JACKPOT')
+        if event.keysym == 'Up' and event.widget.curselection()[0] == 0 or event.keysym == 'BackSpace':
             self.entry.focus_set()
+            self.listbox.selection_clear(0, tk.END),
             self.listbox.select_set(0,0)
-        
+
+        self.on_shared_keyrelease(event)
+
+    def on_shared_keyrelease(self, event):
+        print('ctrl')
+        if event.keysym == 'Escape':
+            self.destroy()
         
     def listbox_update(self, data):
         # delete previous data
@@ -171,7 +192,7 @@ if __name__ == "__main__":
 
 # --- main ---
 
-# test_list = ('apple', 'banana', 'Cranberry', 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry'  )
+# folderTupleList = ('apple', 'banana', 'Cranberry', 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry' , 'dogwood', 'alpha', 'Acorn', 'Anise', 'Strawberry'  )
 
 # app = tk.Tk()
 # # set window width and height
@@ -209,7 +230,7 @@ if __name__ == "__main__":
 # #listbox.bind('<Double-Button-1>', on_select)
 # listbox.bind('<<ListboxSelect>>', on_select)
 # listbox.bind('<<ListboxFocused>>', on_listbox_focus)
-# listbox_update(test_list)
+# listbox_update(folderTupleList)
 # # listbox.focus_set()
 # listbox.select_set(0,0)
 # listbox.activate(0)
