@@ -65,8 +65,10 @@ class App(tk.Tk):
         self.bind_all('<Alt-BackSpace>', self.reset_entry)
 
         # # BUTTONS --------------------------------------
+        self.keyPressDict={}
         counter = 0
         hotkeys=''
+        
         for item in ConfigAppList():
             if item.show:
                 newUnderline=0
@@ -79,36 +81,17 @@ class App(tk.Tk):
                         isFound=True
                 btn =  tk.Button(self, text=item.text, underline=newUnderline, command=lambda x=item: self.on_actionButton_click(x))
                 btn.grid(row=2, column=counter) 
-                uppercaseLetter=(item.text[newUnderline]).upper()
+                uppercaseLetter=(item.text[newUnderline]).lower()
                 print('letter: ', uppercaseLetter)
-                bindstring='<Control-Key-'+uppercaseLetter+'>'
+                bindstring='<Alt-'+uppercaseLetter+'>'
                 print('Bindstring: ', bindstring)
-                self.bind_all(bindstring, lambda y=item: self.on_actionButton_click(y))
+                self.keyPressDict[uppercaseLetter]=item
+                # self.bind(bindstring, lambda x=item: self.on_ctrl_keyrelease)
+                self.bind(bindstring, self.on_ctrl_keyrelease)
                 counter += 1
-        
-        
-        # self.button1 =  tk.Button(self, text="Explorer", underline=0, command=self.on_button1_click)
-        # self.button1.grid(row=2, column=0) 
-        # self.button2 =  tk.Button(self, text="Terminal", underline=0, command=self.on_button1_click)
-        # self.button2.grid(row=2, column=2) 
-        # self.button3 =  tk.Button(self, text="VsCode", underline=0, command=self.on_button1_click)
-        # self.button3.grid(row=2, column=3) 
-        # self.button4 =  tk.Button(self, text="Copy Path", underline=0, command=self.on_button1_click)
-        # self.button4.grid(row=2, column=4) 
-        # self.button5 =  tk.Button(self, text="PowerShell", underline=0, command=self.on_button1_click)
-        # self.button5.grid(row=2, column=5) 
-        # self.lbl =  tk.Label(self, text="           Use Ctrl+key or Enter to open in File Manager", fg="#aaa")
-        # self.lbl.grid(row=2, column=6) 
         self.reloadList()
-        # self.bind_all('<Control-Key-E>', self.on_shared_keyrelease)
-        # self.bind_all('<Control-Key-A>', self.on_shared_keyrelease)
-        # self.bind_all('<Control-Key-C>', self.on_shared_keyrelease)
-        # self.bind_all('<Control-Key-T>', self.on_shared_keyrelease)
-        # self.bind_all('<Control-Key-P>', self.on_shared_keyrelease)
-        # self.bind_all('<Control-Key-Q>', self.exit_app)
-        
 
-    
+    #---------------------------------------------------------------------------------------
     def reloadList(self):
         self.folderTupleList=generateList()
         self.listbox_update(self.folderTupleList)
@@ -117,10 +100,12 @@ class App(tk.Tk):
         self.listbox.activate(0)
         self.entry.focus_set()
         
-        
+    def on_ctrl_keyrelease(self, event):  
+        if len(self.keyPressDict) > 0:
+            self.on_actionButton_click(self.keyPressDict[event.keysym])
+      
     
     def on_entry_keyrelease(self, event):
-        
         # get text from entry
         value = event.widget.get()
         value = value.strip().lower()

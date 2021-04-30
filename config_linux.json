@@ -3,18 +3,13 @@
     "recursive_bookmarks_path":"",
     "apps":[
         {
-            "text": "Dolphin",
+            "text": "Explorer",
             "command": "dolphin '%f'",
             "show":true
         },
         {
             "text": "Termnial",
             "command": "konsole  --new-tab --workdir '%f' &>/dev/null &",
-            "show":true
-        },
-        {
-            "text": "VsCode",
-            "command": "/usr/share/code/code --no-sandbox --unity-launch %f &>/dev/null &",
             "show":true
         },
         {
