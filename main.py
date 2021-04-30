@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-# Ctrl+ c:   copy path
-# Ctrl+ v:   vscode
-# Ctrl+ e:   explorer
-# Ctrl+ t:   terminal
-# Ctrl+ p:   powershell
-
 import tkinter as tk
 from generateList import generateList
 from jsonReadConfig import ConfigAppList
@@ -72,10 +66,24 @@ class App(tk.Tk):
 
         # # BUTTONS --------------------------------------
         counter = 0
+        hotkeys=''
         for item in ConfigAppList():
             if item.show:
-                btn =  tk.Button(self, text=item.text, underline=0, command=lambda x=item: self.on_actionButton_click(x))
+                newUnderline=0
+                isFound=False
+                while isFound == False:
+                    if item.text[newUnderline] in hotkeys:
+                        newUnderline+=1
+                    else:
+                        hotkeys=hotkeys+item.text[newUnderline]
+                        isFound=True
+                btn =  tk.Button(self, text=item.text, underline=newUnderline, command=lambda x=item: self.on_actionButton_click(x))
                 btn.grid(row=2, column=counter) 
+                uppercaseLetter=(item.text[newUnderline]).upper()
+                print('letter: ', uppercaseLetter)
+                bindstring='<Control-Key-'+uppercaseLetter+'>'
+                print('Bindstring: ', bindstring)
+                self.bind_all(bindstring, lambda y=item: self.on_actionButton_click(y))
                 counter += 1
         
         
@@ -207,7 +215,7 @@ class App(tk.Tk):
             self.listbox.focus_set()
 
     def on_button1_click(self, event):
-            pass
+        print('hit')
         
 
     def on_actionButton_click(self, item):

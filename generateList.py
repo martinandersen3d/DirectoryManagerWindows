@@ -1,6 +1,6 @@
 import os
+import os.path as ospath
 import subprocess
-
 from txtParser import txtBookmarksTxtFile
 from recursiveFolderBookmarks import recursiveFolderBookmarks
 
@@ -29,7 +29,8 @@ def generateList():
     sortedList = sorted(filtered, key=lambda k: (k['name']).lower()) 
     resultList=[]
     for item in sortedList:
-        resultList.append(item['path'])
+        if ospath.isdir(item['path']):
+            resultList.append(item['path'])
 
     return tuple(sorted(list(set(resultList))))
 
