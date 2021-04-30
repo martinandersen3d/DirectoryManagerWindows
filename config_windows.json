@@ -1,0 +1,37 @@
+{
+    "bookmarks_path":"",
+    "recursive_bookmarks_path":"",
+    "apps":[
+        {
+            "text": "Explorer",
+            "command": "",
+            "show":true
+        },
+        {
+            "text": "Termnial",
+            "command": "",
+            "show":true
+        },
+        {
+            "text": "VsCode",
+            "command": "",
+            "show":true
+        },
+        {
+            "text": "Copy Path",
+            "command": "",
+            "show":true
+        },
+        {
+            "text": "PowerShell",
+            "command": "",
+            "show":true
+        },
+        {
+            "text": "Todo",
+            "command": "",
+            "show":false
+        }
+    ]
+
+}

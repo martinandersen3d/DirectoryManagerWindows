@@ -8,10 +8,17 @@
 
 import tkinter as tk
 from generateList import generateList
+from jsonReadConfig import ConfigAppList
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+        bg="white"
+        # textcolor="#8ca0aa"
+#           background-color: #282C33;
+#   border-color: #2e343f;
+#   text-color: #8ca0aa;
+        self.configure(background=bg)
         self.folderTupleList = ()
 
         # app = tk.Tk()
@@ -32,50 +39,67 @@ class App(tk.Tk):
         self.title("📁 Folder Bookmarks")
 
         # TEXTFIELD ---------------------------------
-        self.entry = tk.Entry(self, width=140, borderwidth=8, relief=tk.FLAT)
+        self.entry = tk.Entry(self, borderwidth=8, relief=tk.FLAT, width=100)
+        self.entry.configure(background=bg)
 
-        self.entry.pack()
+        self.entry.grid(row=0, column=0, columnspan=7)
         self.entry.bind('<KeyRelease>', self.on_entry_keyrelease)
         self.entry.bind('<<EntryFocus>>', self.on_entry_focus)
-        self.scrollbar = tk.Scrollbar(self, orient="vertical")
-
+        
+        #  ADD PATH - BUTTONS --------------------------------------
+        self.buttonAdd =  tk.Button(self, text="Add Path", underline=0, command=self.on_button1_click)
+        self.buttonAdd.grid(row=0, column=8) 
+                
+        self.buttonRAdd =  tk.Button(self, text="Add Subfolders", underline=4, command=self.on_button1_click)
+        self.buttonRAdd.grid(row=0, column=9, columnspan=2) 
+        
         # LISTBOX --------------------------------
-        self.scrollbar = tk.Scrollbar(self)
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self.listbox = tk.Listbox(self, width=126, height=27, borderwidth=8, relief=tk.FLAT, yscrollcommand=self.scrollbar.set)
+        self.scrollbar = tk.Scrollbar(self, orient="vertical")
+        self.scrollbar.grid(row=1, column=10, sticky='nsw') 
+        self.listbox = tk.Listbox(self, width=123, height=27, borderwidth=8, relief=tk.FLAT, yscrollcommand=self.scrollbar.set)
+        self.listbox.configure(background=bg)
 
-        self.listbox.pack()
+        self.listbox.grid(row=1, column=0, columnspan=10)
         self.scrollbar.config(command=self.listbox.yview)
         self.listbox.bind('<KeyRelease>', self.on_listbox_keyrelease)
-        #listbox.bind('<Double-Button-1>', on_select)
         self.listbox.bind('<<ListboxSelect>>', self.on_select)
         self.listbox.bind('<<ListboxFocused>>', self.on_listbox_focus)
 
 
-        # BUTTONS --------------------------------------
-        self.button1 =  tk.Button(self, text="Explorer", underline=0, command=self.on_button1_click)
-        self.button1.pack(side=tk.LEFT)
-        self.button2 =  tk.Button(self, text="Terminal", underline=0, command=self.on_button1_click)
-        self.button2.pack(side=tk.LEFT)
-        self.button3 =  tk.Button(self, text="VsCode", underline=0, command=self.on_button1_click)
-        self.button3.pack(side=tk.LEFT)
-        self.button4 =  tk.Button(self, text="Copy Path", underline=0, command=self.on_button1_click)
-        self.button4.pack(side=tk.LEFT)
-        self.button5 =  tk.Button(self, text="PowerShell", underline=0, command=self.on_button1_click)
-        self.button5.pack(side=tk.LEFT)
-        self.lbl =  tk.Label(self, text="           Use Ctrl+key or Enter to open in File Manager", fg="#aaa")
-        self.lbl.pack(side=tk.LEFT)
-        self.reloadList()
-        self.bind_all('<Control-Key-E>', self.on_shared_keyrelease)
-        self.bind_all('<Control-Key-A>', self.on_shared_keyrelease)
-        self.bind_all('<Control-Key-C>', self.on_shared_keyrelease)
-        self.bind_all('<Control-Key-T>', self.on_shared_keyrelease)
-        self.bind_all('<Control-Key-P>', self.on_shared_keyrelease)
-        self.bind_all('<Control-Key-Q>', self.exit_app)
-        
-        # Ctrl / Alt + Backspace, clear the textfield
+        # # Ctrl / Alt + Backspace, clear the textfield
         self.bind_all('<Control-Key-BackSpace>', self.reset_entry)
         self.bind_all('<Alt-BackSpace>', self.reset_entry)
+
+        # # BUTTONS --------------------------------------
+        counter = 0
+        for item in ConfigAppList():
+            if item.show:
+                btn =  tk.Button(self, text=item.text, underline=0, command=lambda x=item: self.on_actionButton_click(x))
+                btn.grid(row=2, column=counter) 
+                counter += 1
+        
+        
+        # self.button1 =  tk.Button(self, text="Explorer", underline=0, command=self.on_button1_click)
+        # self.button1.grid(row=2, column=0) 
+        # self.button2 =  tk.Button(self, text="Terminal", underline=0, command=self.on_button1_click)
+        # self.button2.grid(row=2, column=2) 
+        # self.button3 =  tk.Button(self, text="VsCode", underline=0, command=self.on_button1_click)
+        # self.button3.grid(row=2, column=3) 
+        # self.button4 =  tk.Button(self, text="Copy Path", underline=0, command=self.on_button1_click)
+        # self.button4.grid(row=2, column=4) 
+        # self.button5 =  tk.Button(self, text="PowerShell", underline=0, command=self.on_button1_click)
+        # self.button5.grid(row=2, column=5) 
+        # self.lbl =  tk.Label(self, text="           Use Ctrl+key or Enter to open in File Manager", fg="#aaa")
+        # self.lbl.grid(row=2, column=6) 
+        self.reloadList()
+        # self.bind_all('<Control-Key-E>', self.on_shared_keyrelease)
+        # self.bind_all('<Control-Key-A>', self.on_shared_keyrelease)
+        # self.bind_all('<Control-Key-C>', self.on_shared_keyrelease)
+        # self.bind_all('<Control-Key-T>', self.on_shared_keyrelease)
+        # self.bind_all('<Control-Key-P>', self.on_shared_keyrelease)
+        # self.bind_all('<Control-Key-Q>', self.exit_app)
+        
+
     
     def reloadList(self):
         self.folderTupleList=generateList()
@@ -140,6 +164,7 @@ class App(tk.Tk):
             self.listbox.select_set(0,0)
 
         self.on_shared_keyrelease(event)
+        
 
     def on_shared_keyrelease(self, event):
         if event.keysym == 'Escape':
@@ -184,6 +209,13 @@ class App(tk.Tk):
     def on_button1_click(self, event):
             pass
         
+
+    def on_actionButton_click(self, item):
+        if not self.listbox.curselection() == ():
+            for i in self.listbox.curselection():
+                selPath=self.listbox.get(i)
+                item.execute(selPath)
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()

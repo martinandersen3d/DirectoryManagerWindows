@@ -1,0 +1,27 @@
+{
+    "bookmarks_path":"",
+    "recursive_bookmarks_path":"",
+    "apps":[
+        {
+            "text": "Dolphin",
+            "command": "dolphin '%f'",
+            "show":true
+        },
+        {
+            "text": "Termnial",
+            "command": "konsole  --new-tab --workdir '%f' &>/dev/null &",
+            "show":true
+        },
+        {
+            "text": "VsCode",
+            "command": "/usr/share/code/code --no-sandbox --unity-launch %f &>/dev/null &",
+            "show":true
+        },
+        {
+            "text": "Copy Path",
+            "command": "echo '%f' | xclip -sel clip $1 &>/dev/null &",
+            "show":true
+        }
+    ]
+
+}
