@@ -41,10 +41,10 @@ class App(tk.Tk):
         self.entry.bind('<<EntryFocus>>', self.on_entry_focus)
         
         #  ADD PATH - BUTTONS --------------------------------------
-        self.buttonAdd =  tk.Button(self, text="Add Path", underline=0, command=self.on_button1_click)
+        self.buttonAdd =  tk.Button(self, text="Add Path", underline=0, command=self.on_add_folder_click)
         self.buttonAdd.grid(row=0, column=8) 
                 
-        self.buttonRAdd =  tk.Button(self, text="Add Subfolders", underline=4, command=self.on_button1_click)
+        self.buttonRAdd =  tk.Button(self, text="Add Subfolders", underline=4, command=self.on_add_subfolder_click)
         self.buttonRAdd.grid(row=0, column=9, columnspan=2) 
         
         # LISTBOX --------------------------------
@@ -201,9 +201,30 @@ class App(tk.Tk):
 
     def on_button1_click(self, event):
         print('hit')
+
+    def on_add_folder_click(self, event):
+        # Open the file in append & read mode ('a+')
+        with open("./bookmark_folders.txt", "a+") as file_object:
+            # Move read cursor to the start of file.
+            file_object.seek(0)
+            # If file is not empty then append '\n'
+            data = file_object.read(1)
+            if len(data) > 0 :
+                file_object.write("\n")
+            # Append text at the end of file
+            file_object.write("hello hi")
+            
+        def on_add_subfolder_click(self, event):
+            print('hit')
         
 
-    def on_actionButton_click(self, item):
+    def on_actionButton_click(self, event):
+        if not self.listbox.curselection() == ():
+            for i in self.listbox.curselection():
+                selPath=self.listbox.get(i)
+                item.execute(selPath)
+
+    def on_add_subfolder_click(self, event):
         if not self.listbox.curselection() == ():
             for i in self.listbox.curselection():
                 selPath=self.listbox.get(i)

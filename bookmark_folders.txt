@@ -26,7 +26,6 @@
 /media/m/DataLinux/Screenshots
 /media/m/DataLinux/TempAppData
 /media/m/DataLinux/TempAppData/AppImages
-/media/m/DataLinux/TempAppData/Torrent
 /media/m/DataLinux/Tutorials
 /media/m/DataLinux/VMs
 /media/m/DataLinux/VMs/install
