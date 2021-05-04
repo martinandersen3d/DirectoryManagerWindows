@@ -2,6 +2,8 @@
 
 # TODO: 
 
+import os
+import sys
 import tkinter as tk
 from generateList import generateList
 from jsonReadConfig import ConfigAppList
@@ -174,7 +176,10 @@ class App(tk.Tk):
         
         
     def exit_app(self):
-        self.destroy()
+        # self.destroy()
+        # TODO: https://www.geeksforgeeks.org/python-exit-commands-quit-exit-sys-exit-and-os-_exit/
+        sys.exit(0)
+        os._exit(0) 
         
     def listbox_update(self, data):
         # delete previous data
@@ -208,7 +213,8 @@ class App(tk.Tk):
                 print(programLetter)
                 program= self.keyPressDict[programLetter]
                 program.execute(selPath)
-                self.destroy()
+                self.exit_app()
+
 
     def on_entry_focus(self, event):
             self.listbox.select_set(0,0)
