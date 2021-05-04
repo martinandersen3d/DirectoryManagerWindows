@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# TODO: 
+
 import tkinter as tk
 from generateList import generateList
 from jsonReadConfig import ConfigAppList
@@ -58,6 +60,7 @@ class App(tk.Tk):
         self.listbox.bind('<KeyRelease>', self.on_listbox_keyrelease)
         self.listbox.bind('<<ListboxSelect>>', self.on_select)
         self.listbox.bind('<<ListboxFocused>>', self.on_listbox_focus)
+        self.listbox.bind('<Double-1>', self.on_listbox_doubleclick)
 
 
         # # Ctrl / Alt + Backspace, clear the textfield
@@ -193,6 +196,17 @@ class App(tk.Tk):
             self.listbox.select_set(0,0)
             self.listbox.activate(0)
             self.listbox.focus_set()
+
+    def on_listbox_doubleclick(self, event):
+        if not self.listbox.curselection() == ():
+            for i in self.listbox.curselection():
+                selPath=self.listbox.get(i)
+                programLetter=list(self.keyPressDict)[:1][0]
+                print(programLetter)
+                print(programLetter)
+                program= self.keyPressDict[programLetter]
+                program.execute(selPath)
+                self.destroy()
 
     def on_entry_focus(self, event):
             self.listbox.select_set(0,0)
