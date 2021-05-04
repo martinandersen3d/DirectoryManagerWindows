@@ -165,6 +165,8 @@ class App(tk.Tk):
     def on_shared_keyrelease(self, event):
         if event.keysym == 'Escape':
             self.exit_app()
+        if event.keysym == 'Return':
+            self.on_listbox_doubleclick(event)
         
     def reset_entry(self, event):
         self.entry.delete(0, 'end')
